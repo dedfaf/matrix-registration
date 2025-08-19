@@ -1,7 +1,9 @@
 # Standard library imports...
-from datetime import datetime
+# from datetime import datetime
+import datetime
 import logging
 import random
+import click
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
@@ -114,6 +116,32 @@ class Token(db.Model):
             return True
         return False
 
+class ExpireType(click.ParamType):
+    name = "expire"
+
+    def convert(self, value, param, ctx):
+        today = datetime.date.today()
+
+        v = value.lower()
+        if v == "never":
+            return None
+        elif v == "day":
+            return datetime.datetime.combine(today + datetime.timedelta(days=1), datetime.time.min)
+        elif v == "week":
+            return datetime.datetime.combine(today + datetime.timedelta(weeks=1), datetime.time.min)
+        elif v == "month":
+            return datetime.datetime.combine(today + datetime.timedelta(days=30), datetime.time.min)
+
+        try:
+            return datetime.datetime.strptime(value, "%Y-%m-%d")
+        except ValueError:
+            self.fail(
+                f"{value} is not valid. Expected 'never', 'day', 'week', 'month' or ISO date (YYYY-MM-DD)",
+                param,
+                ctx
+            )
+
+ExpireType = ExpireType()
 
 class Tokens:
     def __init__(self):

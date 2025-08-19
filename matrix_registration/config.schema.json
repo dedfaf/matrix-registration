@@ -9,6 +9,15 @@
     "server_name": {
       "type": "string"
     },
+    "registration_url": {
+      "type": "string"
+    },
+    "default_token_maximum": {
+      "type": "integer"
+    },
+    "default_token_expiration": {
+      "type": ["string", "null"]
+    },
     "registration_shared_secret": {
       "type": "string"
     },
