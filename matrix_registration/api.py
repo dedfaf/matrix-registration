@@ -260,7 +260,7 @@ def create_account_from_form(form):
     logger.debug("account creation succeded!")
     return jsonify(
         access_token=account_data["access_token"],
-        home_server=account_data["home_server"],
+        # home_server=account_data["home_server"], # Deprecated
         user_id=account_data["user_id"],
         status="success",
         status_code=200,
