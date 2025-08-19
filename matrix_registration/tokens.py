@@ -126,11 +126,11 @@ class ExpireType(click.ParamType):
         if v == "never":
             return None
         elif v == "day":
-            return datetime.datetime.combine(today + datetime.timedelta(days=1), datetime.time.min)
+            return datetime.datetime.now() + datetime.timedelta(days=1)
         elif v == "week":
-            return datetime.datetime.combine(today + datetime.timedelta(weeks=1), datetime.time.min)
+            return datetime.datetime.now() + datetime.timedelta(weeks=1)
         elif v == "month":
-            return datetime.datetime.combine(today + datetime.timedelta(days=30), datetime.time.min)
+            return datetime.datetime.now() + datetime.timedelta(days=30)
 
         try:
             return datetime.datetime.strptime(value, "%Y-%m-%d")
