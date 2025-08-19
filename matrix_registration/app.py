@@ -77,7 +77,16 @@ def run_server(info):
 )
 def generate_token(maximum, expires):
     token = tokens.tokens.new(expiration_date=expires, max_usage=maximum)
-    print(token.name)
+    # print(token.name)
+    print(f"Token generated: {token.name}")
+    if token.max_usage != 0:
+        print(f"With maximum usage: {token.max_usage}")
+    else:
+        print("With no maximum usage")
+    if expires:
+        print(f"expires at: {token.expiration_date}")
+    else:
+        print("Never expires")
 
 
 @cli.command("status", help="view status or disable")
