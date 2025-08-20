@@ -1,5 +1,8 @@
 server_location: 'http://localhost:8008'
 server_name: 'matrix.org'
+registration_url: "https://your.registeration.page" # Used to prompt for a link when generating tokens through the cli
+default_token_maximum: 0 # default maximum usage for tokens, 0 means unlimited
+default_token_expiration: never # default expiration period for tokens. availble values are "never", "day", "week", "month" or a string in ISO-8601 format (YYYY-MM-DD).
 registration_shared_secret: 'RegistrationSharedSecret' # see your synapse's homeserver.yaml
 admin_api_shared_secret: 'APIAdminPassword' # to generate tokens via the web api
 base_url: '' # e.g. '/element' for https://example.tld/element/register

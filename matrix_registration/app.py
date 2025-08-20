@@ -74,13 +74,13 @@ def run_server(info):
 
 
 @cli.command("generate", help="generate new token")
-@click.option("-m", "--maximum", default=0, help="times token can be used")
+@click.option("-m", "--maximum", default=None, help="times token can be used")
 @click.option(
     "-e",
     "--expires",
-    type=click.DateTime(formats=["%Y-%m-%d"]),
-    default=None,
-    help="expire date: in ISO-8601 format (YYYY-MM-DD)",
+    type=tokens.ExpireTime,
+    default="",
+    help="expire date: one of 'never', 'day', 'week', 'month' or ISO-8601 date (YYYY-MM-DD)"
 )
 @click.option(
     "-r",
@@ -90,8 +90,25 @@ def run_server(info):
     help="generate a human-readable token consists of three words (Classic)",
 )
 def generate_token(maximum, expires, readable):
+    if maximum is None:
+        maximum = config.config.default_token_maximum
+    if expires == "":
+        expires = config.config.default_token_expiration
+        expires = tokens.ExpireTime.convert(expires, None, None)
+
     token = tokens.tokens.new(expiration_date=expires, max_usage=maximum, readable=readable)
-    print(token.name)
+    # print(token.name)
+
+    print(f"Token generated: {token.name}")
+    if token.max_usage != 0:
+        print(f"With maximum usage: {token.max_usage}")
+    else:
+        print("With no maximum usage")
+    if expires:
+        print(f"expires at: {token.expiration_date}")
+    else:
+        print("Never expires")
+    print(f"URL: {config.config.registration_url}/register?token={token.name}")
 
 
 @cli.command("status", help="view status or disable")
