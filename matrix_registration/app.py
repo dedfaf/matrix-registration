@@ -75,8 +75,15 @@ def run_server(info):
     default=None,
     help="expire date: in ISO-8601 format (YYYY-MM-DD)",
 )
-def generate_token(maximum, expires):
-    token = tokens.tokens.new(expiration_date=expires, max_usage=maximum)
+@click.option(
+    "-r",
+    "--readable",
+    is_flag=True,
+    default=False,
+    help="generate a human-readable token consists of three words (Classic)",
+)
+def generate_token(maximum, expires, readable):
+    token = tokens.tokens.new(expiration_date=expires, max_usage=maximum, readable=readable)
     print(token.name)
 
 

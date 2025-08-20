@@ -2,6 +2,8 @@
 from datetime import datetime
 import logging
 import random
+import secrets
+import string
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
@@ -34,6 +36,14 @@ def random_readable_string(length=3, wordlist=WORD_LIST_PATH):
             string += random.choice(lines).title()
     return string
 
+def random_string(length=16):
+    alphabet = string.ascii_letters + string.digits + "!@#$%^&*"
+    token = [secrets.choice("!@#$%^&*")]
+
+    token += [secrets.choice(alphabet) for _ in range(length - 1)]
+    random.shuffle(token)
+    return "".join(token)
+    # return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 association_table = Table(
     "association",
@@ -201,14 +211,18 @@ class Tokens:
             return False
         return True
 
-    def new(self, expiration_date=None, max_usage=False):
+    def new(self, expiration_date=None, max_usage=False, readable=False):
         logger.debug(
             (
                 "creating new token, with options: max_usage: {},"
                 + "expiration_dates: {}"
             ).format(max_usage, expiration_date)
         )
-        token = Token(expiration_date=expiration_date, max_usage=max_usage)
+        if not readable:
+            logger.debug("creating a human-readable token")
+            token = Token(name=random_string(), expiration_date=expiration_date, max_usage=max_usage)
+        else:
+            token = Token(name=random_readable_string(), expiration_date=expiration_date, max_usage=max_usage)
         self.tokens[token.name] = token
         session.add(token)
         session.commit()
