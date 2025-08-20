@@ -2,6 +2,7 @@ import json
 import logging
 import logging.config
 import os
+import warnings
 
 import click
 from flask import Flask
@@ -27,6 +28,12 @@ def create_app(testing=False):
 
     limiter.init_app(app)
     return app
+
+warnings.filterwarnings(
+    "ignore",
+    category=UserWarning,
+    module="flask_limiter.extension"
+)
 
 
 @click.group(
