@@ -1,6 +1,5 @@
 # Standard library imports...
-# from datetime import datetime
-import datetime
+from datetime import datetime, timedelta
 import logging
 import random
 import click
@@ -116,32 +115,27 @@ class Token(db.Model):
             return True
         return False
 
-class ExpireType(click.ParamType):
+class ExpireTime(click.ParamType):
     name = "expire"
 
     def convert(self, value, param, ctx):
-        today = datetime.date.today()
 
         v = value.lower()
         if v == "never":
             return None
         elif v == "day":
-            return datetime.datetime.now() + datetime.timedelta(days=1)
+            return datetime.now() + timedelta(days=1)
         elif v == "week":
-            return datetime.datetime.now() + datetime.timedelta(weeks=1)
+            return datetime.now() + timedelta(weeks=1)
         elif v == "month":
-            return datetime.datetime.now() + datetime.timedelta(days=30)
+            return datetime.now() + timedelta(days=30)
 
         try:
-            return datetime.datetime.strptime(value, "%Y-%m-%d")
+            return datetime.strptime(value, "%Y-%m-%d")
         except ValueError:
-            self.fail(
-                f"{value} is not valid. Expected 'never', 'day', 'week', 'month' or ISO date (YYYY-MM-DD)",
-                param,
-                ctx
-            )
+            self.fail(f"{value} is not valid. Expected 'never', 'day', 'week', 'month' or ISO date (YYYY-MM-DD)", param, ctx)
 
-ExpireType = ExpireType()
+ExpireTime = ExpireTime()
 
 class Tokens:
     def __init__(self):

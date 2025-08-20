@@ -71,16 +71,16 @@ def run_server(info):
 @click.option(
     "-e",
     "--expires",
-    type=tokens.ExpireType,
+    type=tokens.ExpireTime,
     default="",
     help="expire date: one of 'never', 'day', 'week', 'month' or ISO-8601 date (YYYY-MM-DD)"
 )
 def generate_token(maximum, expires):
     if maximum is None:
         maximum = config.config.default_token_maximum
-    if expires is "":
+    if expires == "":
         expires = config.config.default_token_expiration
-        expires = tokens.ExpireType.convert(expires, None, None)
+        expires = tokens.ExpireTime.convert(expires, None, None)
 
     token = tokens.tokens.new(expiration_date=expires, max_usage=maximum)
     # print(token.name)
