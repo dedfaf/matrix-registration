@@ -149,8 +149,15 @@
 
     // set "?lang=" parameter to user lang
     const userLang = navigator.language || navigator.userLanguage
+    let mappedUserLang = userLang
+
+    // map zh-CN to zh-Hans
+    if (userLang == "zh-CN") {
+      mappedUserLang = "zh_Hans"
+    }
+
     if (!urlParams.has("lang")) { 
-      urlParams.append("lang", userLang)
+      urlParams.append("lang", mappedUserLang)
       window.history.replaceState({}, '', `${location.pathname}?${urlParams}`);
     }
 
