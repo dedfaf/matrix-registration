@@ -138,7 +138,8 @@ class RegistrationForm(Form):
     )
     confirm = PasswordField("Repeat Password")
     token = StringField(
-        "Token", [validators.Regexp(r"^([A-Z][a-z]+)+$"), validate_token]
+        # "Token", [validators.Regexp(r"^([A-Z][a-z]+)+$"), validate_token]
+        "Token", [validate_token]
     )
 
 
