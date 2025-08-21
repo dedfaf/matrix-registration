@@ -2,12 +2,8 @@
 from datetime import datetime, timedelta
 import logging
 import random
-<<<<<<< HEAD
 import secrets
 import string
-import click
-=======
->>>>>>> dev-generate-detail
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
