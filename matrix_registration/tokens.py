@@ -43,8 +43,10 @@ def random_string(length=16):
 
     token += [secrets.choice(alphabet) for _ in range(length - 1)]
     random.shuffle(token)
+
+    # alphabet = string.ascii_letters
+    # token = [secrets.choice(alphabet) for _ in range(length)]
     return "".join(token)
-    # return ''.join(secrets.choice(alphabet) for _ in range(length))
 
 association_table = Table(
     "association",
