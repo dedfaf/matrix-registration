@@ -2,9 +2,12 @@
 from datetime import datetime, timedelta
 import logging
 import random
+<<<<<<< HEAD
 import secrets
 import string
 import click
+=======
+>>>>>>> dev-generate-detail
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
@@ -127,11 +130,7 @@ class Token(db.Model):
             return True
         return False
 
-class ExpireTime(click.ParamType):
-    name = "expire"
-
-    def convert(self, value, param, ctx):
-
+    def convert(value):
         v = value.lower()
         if v == "never":
             return None
@@ -145,9 +144,8 @@ class ExpireTime(click.ParamType):
         try:
             return datetime.strptime(value, "%Y-%m-%d")
         except ValueError:
-            self.fail(f"{value} is not valid. Expected 'never', 'day', 'week', 'month' or ISO date (YYYY-MM-DD)", param, ctx)
+            return None
 
-ExpireTime = ExpireTime()
 
 class Tokens:
     def __init__(self):

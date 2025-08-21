@@ -78,8 +78,7 @@ def run_server(info):
 @click.option(
     "-e",
     "--expires",
-    type=tokens.ExpireTime,
-    default="",
+    default=None,
     help="expire date: one of 'never', 'day', 'week', 'month' or ISO-8601 date (YYYY-MM-DD)"
 )
 @click.option(
@@ -92,11 +91,15 @@ def run_server(info):
 def generate_token(maximum, expires, readable):
     if maximum is None:
         maximum = config.config.default_token_maximum
-    if expires == "":
+    if expires is None:
         expires = config.config.default_token_expiration
-        expires = tokens.ExpireTime.convert(expires, None, None)
+    expireTime = tokens.Token.convert(expires)
 
-    token = tokens.tokens.new(expiration_date=expires, max_usage=maximum, readable=readable)
+    if expireTime is None and expires != "never":
+        print(f"expires '{expires}' is not valid. Expected 'never', 'day', 'week', 'month' or ISO-8601 date (YYYY-MM-DD)")
+        return -1
+
+    token = tokens.tokens.new(expiration_date=expireTime, max_usage=maximum, readable=readable)
     # print(token.name)
 
     print(f"Token generated: {token.name}")
@@ -104,7 +107,7 @@ def generate_token(maximum, expires, readable):
         print(f"With maximum usage: {token.max_usage}")
     else:
         print("With no maximum usage")
-    if expires:
+    if token.expiration_date is not None:
         print(f"expires at: {token.expiration_date}")
     else:
         print("Never expires")
