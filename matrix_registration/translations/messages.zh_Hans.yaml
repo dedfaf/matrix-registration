@@ -13,8 +13,10 @@ weblate:
   password_too_short: 至少 {{ pw_length }} 个字符
   case_sensitive: 大小写敏感，如 SardineImpactReport
   username_format: 格式：@用户名:{{ server_name }}
-  choose_client: 或从这些其他客户端中选择：
-  click_to_login: 点此登陆：
+  choose_client: 或者自行选择一个客户端：
+  # click_to_login: 点此登陆：
+  success_message: "已注册"
+  click_to_login: "现在你可以使用任意Matrix客户端登录。如果你没有客户端，可以使用CinnyWeb登录：\n"
   register: 注册
   token: 令牌
   confirm: 确认密码

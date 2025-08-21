@@ -24,14 +24,17 @@
   <!-- valley cover by Designed by Jesús Roncero -->
   <!-- https://www.flickr.com/golan -->
   <!-- licensed under CC-BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/) -->
-  <link rel="preload" as="image" href="{{ url_for('static', filename='images/valley.jpg') }}">
+  <!-- <link rel="preload" as="image" href="{{ url_for('static', filename='images/valley.jpg') }}"> -->
+
+  <!-- My background image is CG of White Album 2 -->
+  <link rel="preload" as="image" href="{{ url_for('static', filename='images/background.webp') }}">
   <style>
     @font-face {
       font-family: "Nunito";
       src: local("Nunito"), url("{{ url_for('static', filename='fonts/Nunito_400_Nunito_700.woff2') }}");
     }
     body, .widget::before {
-      background-image: url("{{ url_for('static', filename='images/valley.jpg') }}");
+      background-image: url("{{ url_for('static', filename='images/background.webp') }}");
     }
   </style>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -87,10 +90,11 @@
         <h2 id="welcome"></h2>
       </header>
       <section>
+        <p id="success_message"></p>
         <p> {{ translations.click_to_login }}</p>
         <h3><a href="{{ client_redirect }}"><img src="{{ base_url }}/static/replace/images/element-logo.png" height="100px"></a></h3>
-        <p>{{ translations.choose_client }} <a href="https://matrix.org/docs/projects/clients-matrix"
-            a>https://matrix.org/docs/projects/clients-matrix</a></p>
+        <p>{{ translations.choose_client }} <a href="https://matrix.org/ecosystem/clients/"
+            a>https://matrix.org/ecosystem/clients/</a></p>
       </section>
     </div>
   </article>
@@ -106,10 +110,9 @@
       </section>
     </div>
   </article>
-  <footer class="info">
-    <p>Cover photo by: <a href="https://www.flickr.com/golan" target="_blank">Jesús Roncero</a>,<br>
-      used under the terms of <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC-BY-SA
-        4.0</a>. No warranties are given.
+  <footer>
+    <p class="info">Cover photo from <a href="https://whitealbum2.jp/" target="_blank">White Album 2</a>,<br>
+      顺带一提，我不是白学家，至少现在不算了<br>
     </p>
   </footer>
 
@@ -249,6 +252,7 @@
           }
         } else {
           document.getElementById("welcome").innerHTML = "{{ translations.welcome }} "  + response['user_id']
+          document.getElementById("success_message").innerHTML = "{{ translations.success_message }} "  + response['user_id']
           document.getElementById("success").classList.remove("hidden")
         }
 

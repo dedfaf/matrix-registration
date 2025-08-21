@@ -173,14 +173,16 @@ label {
   bottom: .5vh;
   right: 1vw;
   text-align: left;
-  color: grey;
+  color: rgb(236, 236, 236);
   font-size: 0.8em;
   opacity: 0.1;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease, background-color 0.5s ease;
+  padding: 0.1em 0.3em; /* 让背景有点内边距 */
 }
 
 .info:hover {
   opacity: 1;
+  background-color: rgba(128, 128, 128, 0.6); /* 半透明灰色背景 */
 }
 
 .info a {
@@ -220,7 +222,7 @@ label {
   background: inherit;
   z-index: -1;
   transform: scale(1.03);
-  filter: blur(10px);
+  filter: blur(5px);
 }
 
 .register {
