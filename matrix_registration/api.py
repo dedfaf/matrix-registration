@@ -206,6 +206,8 @@ def register():
     uname_regex_inv = config.config.username["invalidation_regex"]
     lang = request.args.get("lang") or request.accept_languages.best
     replacements = {"server_name": server_name, "pw_length": pw_length}
+    if lang == "zh-CN":
+        lang = "zh_Hans"
     translations = get_translations(lang, replacements)
     return render_template(
         "register.html",
