@@ -92,7 +92,7 @@
       <section>
         <p id="success_message"></p>
         <p> {{ translations.click_to_login }}</p>
-        <h3><a href="{{ client_redirect }}"><img src="{{ base_url }}/static/replace/images/element-logo.png" height="100px"></a></h3>
+        <h3 id="redirect-icon"><a href="{{ client_redirect }}"><img src="{{ base_url }}/static/replace/images/element-logo.png" height="100px"></a></h3>
         <p>{{ translations.choose_client }} <a href="https://matrix.org/ecosystem/clients/"
             a>https://matrix.org/ecosystem/clients/</a></p>
       </section>
@@ -260,6 +260,11 @@
         } else {
           document.getElementById("welcome").innerHTML = "{{ translations.welcome }} "  + response['user_id']
           document.getElementById("success_message").innerHTML = "{{ translations.success_message }} "  + response['user_id']
+
+          const usernameMatch = response['user_id'].match(/^@([^:]+):/);  
+          const userid = usernameMatch ? usernameMatch[1] : "";
+
+          document.getElementById("redirect-icon").querySelector("a").href = "{{ client_redirect }}?username=" + encodeURIComponent(userid);
           document.getElementById("success").classList.remove("hidden")
         }
 
