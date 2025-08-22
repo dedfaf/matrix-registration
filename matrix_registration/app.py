@@ -9,6 +9,7 @@ from flask import Flask
 from flask.cli import FlaskGroup, pass_script_info
 from flask_cors import CORS
 from waitress import serve
+from urllib.parse import quote
 
 from . import config
 from . import tokens
@@ -111,7 +112,8 @@ def generate_token(maximum, expires, readable):
         print(f"expires at: {token.expiration_date}")
     else:
         print("Never expires")
-    print(f"URL: {config.config.registration_url}/register?token={token.name}")
+    # print(f"URL: {config.config.registration_url}/register?token={token.name}")
+    print(f"URL: {config.config.registration_url}/register?token={quote(token.name, safe='')}")
 
 
 @cli.command("status", help="view status or disable")
