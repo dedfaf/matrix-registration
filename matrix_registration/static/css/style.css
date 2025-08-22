@@ -188,12 +188,12 @@ label {
   font-size: 0.8em;
   opacity: 0.1;
   transition: opacity 0.5s ease, background-color 0.5s ease;
-  padding: 0.1em 0.3em; /* 让背景有点内边距 */
+  padding: 0.1em 0.3em;
 }
 
 .info:hover {
   opacity: 1;
-  background-color: rgba(128, 128, 128, 0.6); /* 半透明灰色背景 */
+  background-color: rgba(128, 128, 128, 0.6);
 }
 
 .info a {
