@@ -170,6 +170,10 @@ class Tokens:
 
         logger.debug("token loaded!")
 
+    def all_tokens(self):
+        logger.debug("getting all tokens")
+        return self.tokens.values()
+
     def get_token(self, token_name):
         logger.debug("getting token by name: %s" % token_name)
         try:

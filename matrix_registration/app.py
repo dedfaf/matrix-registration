@@ -10,6 +10,7 @@ from flask.cli import FlaskGroup, pass_script_info
 from flask_cors import CORS
 from waitress import serve
 from urllib.parse import quote
+from tabulate import tabulate
 
 from . import config
 from . import tokens
@@ -120,7 +121,8 @@ def generate_token(maximum, expires, readable):
 @click.option("-s", "--status", default=None, help="token status")
 @click.option("-l", "--list", is_flag=True, help="list tokens")
 @click.option("-d", "--disable", default=None, help="disable token")
-def status_token(status, list, disable):
+@click.option("-v", "--verbose", is_flag=True, help="verbose output")
+def status_token(status, list, disable, verbose):
     if disable:
         if tokens.tokens.disable(disable):
             print("Token disabled")
@@ -133,5 +135,18 @@ def status_token(status, list, disable):
             print(json.dumps(token.toDict(), indent=2))
         else:
             print("No token with that name")
+    elif verbose:
+        print("verbose output:")
+        tableData = []
+        tableHeaders = ["Token", "Active", "Disabled", "Max Usage", "Used", "Expiration Date"]
+        for token in tokens.tokens.all_tokens():
+            tableData.append([
+                token.name, token.active(), token.disabled,
+                token.max_usage, token.used,
+                str(token.expiration_date) if token.expiration_date else "Never"])
+
+        print(tabulate(tableData, headers=tableHeaders, tablefmt="plain"))
     elif list:
         print(tokens.tokens)
+
+# @cli.command("delete", help="delete token")
