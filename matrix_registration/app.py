@@ -124,14 +124,15 @@ def generate_token(maximum, expires, readable):
 @click.option("-v", "--verbose", is_flag=True, help="verbose output")
 @click.option("-D", "--delete", default=None, help="delete token")
 def status_token(status, list, disable, verbose, delete):
-    if delete:
-        token = tokens.tokens.get_token(delete)
+    if delete or status or disable:
+        token = tokens.tokens.get_token(delete or status or disable)
         if token:
             print(f"This token is{' ' if token.active() else ' not '}valid")
             print(json.dumps(token.toDict(), indent=2))
         else:
             print("No token with that name")
             return
+    if delete:
         confirm = input(f"Confirm deletion of token '{delete}'? This action is irreversible (y/N): ")
         if confirm.lower() == 'y':
             if tokens.tokens.delete(delete):
@@ -145,21 +146,17 @@ def status_token(status, list, disable, verbose, delete):
             print("Token disabled")
         else:
             print("Token couldn't be disabled")
-    elif status:
-        token = tokens.tokens.get_token(status)
-        if token:
-            print(f"This token is{' ' if token.active() else ' not '}valid")
-            print(json.dumps(token.toDict(), indent=2))
-        else:
-            print("No token with that name")
     elif verbose:
         print("verbose output:")
         tableData = []
         tableHeaders = ["Token", "Active", "Disabled", "Max Usage", "Used", "Expiration Date"]
         for token in tokens.tokens.all_tokens():
             tableData.append([
-                token.name, token.active(), token.disabled,
-                token.max_usage, token.used,
+                token.name, 
+                token.active(), 
+                token.disabled,
+                token.max_usage if token.max_usage != 0 else "Infinite", 
+                token.used,
                 str(token.expiration_date) if token.expiration_date else "Never"])
 
         print(tabulate(tableData, headers=tableHeaders, tablefmt="plain"))
