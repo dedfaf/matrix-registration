@@ -170,10 +170,17 @@ def unauthorized():
 
 @api.route("/static/replace/images/element-logo.png")
 def element_logo():
-    return send_file(
-        config.config.client_logo.replace("{cwd}", f"{os.getcwd()}/"),
-        mimetype="image/jpeg",
-    )
+    logo_path = config.config.client_logo.replace("{cwd}", f"{os.getcwd()}/")
+    ext = os.path.splitext(logo_path)[1].lower()
+    if ext == ".svg":
+        mimetype = "image/svg+xml"
+    elif ext == ".png":
+        mimetype = "image/png"
+    elif ext in [".jpg", ".jpeg"]:
+        mimetype = "image/jpeg"
+    else:
+        mimetype = "application/octet-stream"
+    return send_file(logo_path, mimetype=mimetype)
 
 
 @api.route("/register", methods=["GET", "POST"])

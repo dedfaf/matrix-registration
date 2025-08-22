@@ -9,6 +9,7 @@ data/
 !matrix_registration/translations/*.yaml
 
 matrix_registration/static/images/background.webp
+matrix_registration/static/images/cinny.svg
 # vscode
 .vscode/
 # nose

@@ -19,6 +19,10 @@ def get_translations(lang="en", replacements={}):
 
 
 def _get_translations(lang="en", replacements={}):
+    # Only did the en & zh translations expand
+    allowed_langs = {"en", "zh_Hans"}
+    if lang not in allowed_langs:
+        lang = "en"
     path = os.path.join(__location__, f"translations/messages.{lang}.yaml")
 
     with open(path, "r") as stream:

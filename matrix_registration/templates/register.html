@@ -90,10 +90,11 @@
       <header>
         <h2 id="welcome"></h2>
       </header>
-      <section>
+      <section class="success-section">
         <p id="success_message"></p>
         <p> {{ translations.click_to_login }}</p>
-        <h3 id="redirect-icon"><a href="{{ client_redirect }}"><img src="{{ base_url }}/static/replace/images/element-logo.png" height="100px"></a></h3>
+        <h3 id="redirect-icon"><a href="{{ client_redirect }}"><img src="{{ base_url }}/static/replace/images/element-logo.png" height="60px"></a></h3>
+        <p class="icon-alt">{{ translations.icon_alt }}</p>
         <p>{{ translations.choose_client }} <a href="https://matrix.org/ecosystem/clients/"
             a>https://matrix.org/ecosystem/clients/</a></p>
       </section>

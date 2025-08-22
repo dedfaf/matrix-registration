@@ -96,6 +96,17 @@ label {
   transition: 300ms ease all;
 }
 
+.success-section {
+  padding: 0 1em;
+}
+
+.icon-alt {
+  color: rgb(128, 128, 128);
+  font-style: italic;
+  font-size: 0.8em;
+  text-align: center;
+}
+
 *,
 :before,
 :after {
