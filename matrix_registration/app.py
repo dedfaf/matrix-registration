@@ -122,8 +122,25 @@ def generate_token(maximum, expires, readable):
 @click.option("-l", "--list", is_flag=True, help="list tokens")
 @click.option("-d", "--disable", default=None, help="disable token")
 @click.option("-v", "--verbose", is_flag=True, help="verbose output")
-def status_token(status, list, disable, verbose):
-    if disable:
+@click.option("-D", "--delete", default=None, help="delete token")
+def status_token(status, list, disable, verbose, delete):
+    if delete:
+        token = tokens.tokens.get_token(delete)
+        if token:
+            print(f"This token is{' ' if token.active() else ' not '}valid")
+            print(json.dumps(token.toDict(), indent=2))
+        else:
+            print("No token with that name")
+            return
+        confirm = input(f"Confirm deletion of token '{delete}'? This action is irreversible (y/N): ")
+        if confirm.lower() == 'y':
+            if tokens.tokens.delete(delete):
+                print("Token deleted")
+            else:
+                print("Token couldn't be deleted")
+        else:
+            print("Aborted")
+    elif disable:
         if tokens.tokens.disable(disable):
             print("Token disabled")
         else:
